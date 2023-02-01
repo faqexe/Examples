@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Копирование объектов и массивов (Ссылки vs. Копирование)</title>
+  </head>
+  <body>
+    <script>
+      // ## Строки, цифры, boolean
+      // Начнем со строк, цифр и значений true/false
+      let name = "vasily";
+      let nameTwo = name;
+      name = "stas";
+
+      console.log(name); // stas
+      console.log(nameTwo); // vasily
+
+      let age = 100;
+      let ageTwo = 15;
+      age = 25;
+
+      console.log(age); // 25
+      console.log(ageTwo); // 15
+
+      // У нас есть массив
+      const students = ["Сергей", "Станистлав", "Мария", "Павел"];
+
+      // ## Массивы
+      // Мы хотим создать копию массива
+      const group = students;
+
+      // Давайте внесем изменение в новый массив
+      group[2] = "Александра";
+
+      // Посмотрим что у нас получилось
+      console.log(students);
+      console.log(group);
+
+      // У нас проблема! Исходный массив students был так же изменен
+
+      // Причина заключается в том, что создавая таким образом массив group -
+      // мы создаем ссылку на объект, а не копию объекта!
+      // Оба объекта ссылаются на один и тот же массив.
+
+      // И что же делать? Вместо этого давайте создадим копию массива!
+
+      // ** Вариант 1 (метод slice)
+      // const group2 = students.slice(0, 2);
+      // console.log(group2); // ['Сергей', 'Станислав']
+
+      const group2 = students.slice();
+      console.log(group2); // ['Сергей', 'Станистлав', 'Мария', 'Павел']
+      group2[2] = "Василий";
+      console.log(students); // ['Сергей', 'Станистлав', 'Мария', 'Павел'] - исходный не поменялся
+      console.log(group2); // ['Сергей', 'Станистлав', 'Василий', 'Павел']
+
+      // ** Вариант 2 (метод concat)
+      const group3 = [].concat(students);
+
+      // ** Вариант 3 (оператор spread)
+      const group4 = [...students];
+
+      // ** Вариант 4 (метод Array.from())
+      const group5 = Array.from(students);
+
+      // Таким образом мы создаем копию и не меняем исходный массив!
+
+      // ## Объекты
+
+      // Тоже самое относится и к объектам
+      const person = {
+        name: "Peter",
+        age: 30,
+      };
+
+      // Попробуем сделать копию объекта
+      const student = person;
+      person.age = 100;
+      console.log(person); // {name: 'Peter', age: 100}
+      console.log(student); // {name: 'Peter', age: 100} - тоже поменялся
+
+      // Как создать копию объекта?
+
+      // ** Вариант 1 (метод Object.assign())
+      const fireman = Object.assign({}, person, { age: 38, height: "1.8m" });
+      console.log(person); // {name: 'Peter', age: 100}
+      console.log(fireman); // {name: 'Peter', age: 38, height: '1.8m'}
+
+      // ** Вариант 2 (используем оператор spread)
+
+      const worker = { ...person };
+
+      // ВАЖНО! Все способы копирования массивов и объектов подразумевает верхнеуровневое
+      // копирование - не копирует вложенные объекты! Для копирования объектов с
+      // несколькими уровнями вложенности можно использовать метод cloneDeep библиотеки lodash.
+
+      const max = {
+        name: "Max",
+        age: 20,
+        social: {
+          twitter: "@max",
+          facebook: "maxim",
+        },
+      };
+
+      const max2 = Object.assign({}, max, { name: "Max2", age: 100 });
+      max2.social.facebook = "max22222";
+      // Изменяться оба вложенных объекта. Копия не создана
+
+      // ** Вариант 1 (JSON)
+      // Создается строчное выражение и затем переводится в объект
+      const max3 = JSON.parse(JSON.stringify(max));
+      max3.social.facebook = "max33333";
+      console.log(max);
+      console.log(max3);
+
+      // Есть вопросы к быстродействию данного метода, поэтому его следует использовать очень осторожно
+    </script>
+  </body>
+</html>

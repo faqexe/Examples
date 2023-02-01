@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Local Storage</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h2>Создай свою пиццу</h2>
+      <p></p>
+      <ul class="items-list">
+        <li>Загружаю ингридиенты...</li>
+      </ul>
+      <form action="" class="add-items-form">
+        <input
+          type="text"
+          name="item"
+          placeholder="Название..."
+          autocomplete="off"
+          required
+        />
+        <input type="submit" value="+ Добавить ингридиент" />
+      </form>
+    </div>
+
+    <script>
+      const addItemsForm = document.querySelector(".add-items-form");
+      const itemsList = document.querySelector(".items-list");
+      // Переменная переводит строку в массив
+      // Если в local storage нет данных, создается пустой массив
+      const items = JSON.parse(localStorage.getItem("items")) || [];
+
+      function addItem(e) {
+        // удаляем стандартное действие submit
+        e.preventDefault();
+        // создаем переменную и присваиваем ей введеное значение из input
+        const text = e.target.item.value;
+        // так будет выглядеть каждый ингридиет при добавлении
+        const item = {
+          text: text, // название берется из созданной переменной выше
+          checked: false, // свойство checked изначально неактивно
+        };
+        // при каждом создании ингридиента будем добавлять его в пустой массив items
+        items.push(item);
+        // записываем ингридиенты в local storage (принимает только строчный формат)
+        localStorage.setItem("items", JSON.stringify(items));
+        // вызов функции каждый раз при добавлении нового ингридиента
+        displayItems(items, itemsList); // внутри передаем обновленный массив и переменную списка
+        // перезагружаем форму после каждого добавления ингридиента
+        this.reset();
+      }
+
+      // Отображение ингридиентов на странице
+      // Функция принимает 2 параметра - ингридиенты и наша переменная itemsList (список ul)
+      function displayItems(ingridients, ingridientsList) {
+        // Создаем HTML для отображения введенных ингридиентов
+        ingridientsList.innerHTML = ingridients
+          .map((ingridient, index) => {
+            return `<li>
+               <input type='checkbox' id='item${index}' data-index='${index}' ${
+              ingridient.checked ? "checked" : ""
+            }/>
+               <label for='item${index}'>${ingridient.text}</label>
+               </li>`;
+          })
+          .join("");
+      }
+
+      // Функция для назначение свойства checked выбранному ингридиенту
+      function toogleClick(e) {
+        if (!e.target.matches("input")) return;
+        const element = e.target.dataset.index;
+        items[element].checked = !items[element].checked;
+        // Загружаем обновленные данные из local storage, чтобы
+        // при перезагрузке страницы не снимались галочки отметки
+        localStorage.setItem("items", JSON.stringify(items));
+        displayItems(items, itemsList);
+      }
+
+      // Привязываем к форме функцию
+      addItemsForm.addEventListener("submit", addItem);
+      // Привязываем событие checked
+      itemsList.addEventListener("click", toogleClick);
+      // Вызываем функцию для отображения данных при каждой перезагрузке страницы
+      displayItems(items, itemsList);
+    </script>
+  </body>
+</html>

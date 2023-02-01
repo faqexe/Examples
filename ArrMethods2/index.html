@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Методы массивов - 2</title>
+  </head>
+  <body>
+    <script>
+      // ## Основные Методы Массивов - 2
+
+      const people = [
+        { name: "Станислав", year: 2000 },
+        { name: "Василий", year: 1986 },
+        { name: "Александр", year: 1990 },
+        { name: "Владимир", year: 2004 },
+      ];
+
+      const comments = [
+        { text: "Отличный пост!", id: 523423 },
+        { text: "Мне нравится", id: 823423 },
+        { text: "Продолжай в том же духе", id: 2039842 },
+        { text: "Все аццццтой !!!!!", id: 123523 },
+        { text: "Нормально", id: 542328 },
+      ];
+
+      //## Методы Some и Every
+
+      // Array.prototype.some() -> Бежит по каждому элементу и возвращает true, если хоть один удовлетворяет условию
+
+      // Проверить, что по крайней мере одному из людей исполнилось 16 лет.
+      const isSixteen = people.some(
+        (person) => new Date().getFullYear - person.year >= 16
+      );
+
+      // Array.prototype.every() -> Бежит по каждому элементу и возвращает true, если все удовлетворяют условию
+
+      // Проверить, что каждому из людей исполнилось 16 лет.
+      const everySixteen = people.every(
+        (person) => new Date().getFullYear - person.year >= 16
+      );
+
+      // ## Array.prototype.find() -> Возвращает первый элемент массива, который удовлетворяет нашим требованиям
+
+      // Задача: найти комментарий, c номером ID - 823423
+      const commentID = comments.find((comment) => comment.id === 823423);
+
+      // ## Array.prototype.findIndex() -> Возвращает индекс первого элемента, который удовлетворяет нашим требованиям
+
+      // Задача: удалить из массива комментарий с номером ID 123523
+      // 1. Находим индекс нужного нам комментария
+      const commentIndex = comments.findIndex(
+        (comment) => comment.id === 123523
+      );
+      // 2. Удаляем комментарий из массива (используем метод spice())
+      // Проблема данного метода - затрагивает исходный массив
+      // comments.splice(commentIndex, 1);
+      // console.log(comments);
+
+      // 2.1 Удаляем комментарий из массива (используем метод slice() и оператор spread)
+      // Создаем переменную и записываем в нее все комментарии до негативного
+      const commentOne = comments.slice(0, commentIndex);
+      // Создаем вторую переменную и записываем в нее все комментарии после негативного
+      const commentTwo = comments.slice(commentIndex + 1);
+
+      // slice() создает новый массив, куда копирует елементы начиная с индекса старт и до end (не включая end)
+      // используем оператор spread для копирования всех элементов первого и воторого массива в новый массив newComments:
+      const newComments = [...commentOne, ...commentTwo];
+    </script>
+  </body>
+</html>
