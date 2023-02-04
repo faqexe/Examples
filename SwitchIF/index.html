@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlackJack</title>
+  </head>
+  <body>
+    <p>
+      В игре Блэкджек игрок может определить, есть ли у него преимущество в
+      следующей раздаче, отслеживая относительное количество старших и младших
+      карт, оставшихся в колоде. Это называется подсчетом карт. Наличие большего
+      количества старших карт, оставшихся в колоде, благоприятствует игроку.
+      Каждой карте присваивается значение в соответствии с приведенной ниже
+      таблицей. Когда счет положительный, игрок должен делать высокую ставку.
+      Когда счет равен нулю или отрицателен, игрок должен делать низкую ставку.
+    </p>
+    <table>
+      <tr>
+        <td
+          style="border: 1px solid #ccc; font-weight: 700; text-align: center"
+        >
+          Count Change
+        </td>
+        <td
+          style="border: 1px solid #ccc; font-weight: 700; text-align: center"
+        >
+          Cards
+        </td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ccc; text-align: center">+1</td>
+        <td style="border: 1px solid #ccc">2, 3, 4, 5, 6</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ccc; text-align: center">0</td>
+        <td style="border: 1px solid #ccc">7, 8, 9</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ccc; text-align: center">-1</td>
+        <td style="border: 1px solid #ccc">10, 'J', 'Q', 'K', 'A'</td>
+      </tr>
+    </table>
+    <p>
+      Напишете функцию подсчета карт. Функция получает параметр <b>card</b>,
+      который может быть числом или строкой, и увеличивает или уменьшает
+      <b>count</b> в соответствии со значением карты. Затем функция возвращает
+      строку с текущим количеством и строку <b>Bet</b>, если количество
+      положительное, или <b>Hold</b>, если количество равно нулю или
+      отрицательному.
+    </p>
+    <ul>
+      <li>Не обнуляйте count когда значение равно 7, 8, 9</li>
+      <li>Не возвращайте массив</li>
+    </ul>
+
+    <script>
+      let count = 0;
+
+      function cc(card) {
+        switch (card) {
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+            count++;
+            break;
+          case 10:
+          case "J":
+          case "Q":
+          case "K":
+          case "A":
+            count--;
+            break;
+        }
+
+        if (count > 0) {
+          return count + " Bet";
+        } else {
+          return count + " Hold";
+        }
+      }
+
+      cc(2);
+      cc(3);
+      cc(7);
+      cc("K");
+      cc("A");
+    </script>
+  </body>
+</html>
