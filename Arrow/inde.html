@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arrow Functions</title>
+  </head>
+  <body>
+    <div class="header">Arrow Functions</div>
+    <script>
+      const fruits = ["яблоки", "бананы", "сливы"];
+
+      // const freshFruits = fruits.map(function (fruit) {
+      //   return `Севежие ${fruit}`;
+      // });
+      // console.log(freshFruits);
+      // Получаем новый массив ['Севежие яблоки', 'Севежие бананы', 'Севежие сливы']
+
+      // Переписываем с использованием стрелочной функции
+      const freshFruits = fruits.map((fruit) => `Севежие ${fruit}`);
+      console.log(freshFruits);
+
+      //! Важно помнить, что все стрелочные функции анонимные
+
+      // function getFreshFruit(fruit) {
+      //   console.log(fruit);
+      // }
+      // getFreshFruit("банан"); // банан
+
+      // Переписываем в стрелочную функцию и получаем функциональное выражение
+      const getFreshFruit = (fruit) => {
+        console.log(fruit);
+      };
+      getFreshFruit("банан");
+
+      // Значение this внутри стрелочной функции наследуется
+      // из родительской внешней функции
+      // Стрелочная функция не создает собственный контекст исполнения,
+      // вместо этого используя внешний контекст
+
+      const header = document.querySelector(".header");
+
+      // header.addEventListener("click", () => {
+      //   this.style.color = "green"; // Ошибка! this привязан к внешнему объекту document
+      // });
+
+      header.addEventListener("click", function () {
+        this.style.color = "green";
+        this.style.fontWeight = "bold";
+        this.style.marginTop = "200px";
+
+        //   setTimeout(function () {
+        //     this.style.color = "red";
+        //     this.style.fontTransform = "upperCase";
+        //   }, 2000);
+        // Ошибка! Во время выполнения обыной функции
+        // this привязан к внешнему объекту document
+        setTimeout(() => {
+          this.style.color = "red";
+          this.style.textTransform = "upperCase";
+        }, 2000);
+        // this унаследуется из изначальной функции
+      });
+    </script>
+  </body>
+</html>
