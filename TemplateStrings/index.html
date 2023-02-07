@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Шаблонные строки</title>
+  </head>
+  <body>
+    <script>
+      const car = "Tesla";
+      const carYear = 2018;
+
+      // Как выглядело раньше
+      // const detail = 'Автомобилю ' + car + ' - ' + (2023 - carYear) + ' лет.';
+      // С использованием шаблонной строки
+      const detail = `Автомобилю ${car} - ${2023 - carYear} лет`;
+      console.log(detail);
+
+      // ## Еще одно преимущество шаблонных строк - создание переносов
+
+      // Как было раньше
+      // const text = 'Автомобиль \
+      //    проехал \
+      //    10км \
+      // '
+
+      const newCar = {
+        name: "Tesla",
+        year: 2020,
+      };
+      // ## Добавление html-структуры с помощью шаблонных строк
+      const html = `<div>
+         <h2>${newCar.name}</h2>
+         <p>${newCar.year}</p>
+      </div>`;
+
+      document.body.innerHTML = html;
+
+      // ## Шаблонные строки могут использовать вложенную структуру
+      const cars = [
+        {
+          name: "Tesla",
+          year: 2020,
+        },
+        {
+          name: "Nissan",
+          year: 2020,
+        },
+      ];
+
+      const htmlCars = `
+         <ul>
+            ${cars.map((car) => `<li>${car.name}</li>`).join("")}
+         </ul>
+      `;
+
+      document.body.insertAdjacentHTML("beforeend", htmlCars);
+
+      // ## Использование условия внутри шаблонной строки
+      const auto = {
+        name: "Tesla",
+        year: 2020,
+        info: "Современный электромобиль",
+      };
+
+      // const htmlAuto = `
+      //    <div>
+      //       <p>Название: ${auto.name}</p>
+      //       <p>Год: ${auto.year}</p>
+      //       <p>Информация: ${auto.info}</p>
+      //    </div>
+      // `;
+
+      // Перепишем html-структуру с условием проверки одного из пунктов
+      const htmlAuto = `
+         <div>
+            <p>Название: ${auto.name}</p>
+            <p>Год: ${auto.year}</p>
+            ${auto.info ? `<p>Информация: ${auto.info}</p>` : ""}
+         </div>
+      `;
+      // Теперь если свойсво info отсутствует, то ничего вместо него не выводится
+      document.body.insertAdjacentHTML("beforeend", htmlAuto);
+
+      // Современем код становится менее читабельным из-за
+      // формирования вложенности шаблонных строк друг в друга
+      // В этом случае мы можем выносить часть функционала в отдельную функцию
+      const autoCar = {
+        name: "Tesla",
+        year: 2021,
+        tags: ["electric", "modern", "fast"],
+      };
+      
+      const renderTags = (tags) => {
+        return `
+            <ul>
+               ${tags.map((tag) => `<li>${tag}</li>`).join("")}
+            </ul>`;
+      };
+
+      const htmlAutoCar = `
+         <div>
+            <p>Название: ${autoCar.name}</p>
+            <p>Год: ${autoCar.year}</p>
+            ${renderTags(autoCar.tags)}
+         </div>
+      `;
+
+      document.body.insertAdjacentHTML("beforeend", htmlAutoCar);
+    </script>
+  </body>
+</html>
