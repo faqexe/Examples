@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Деструктуризация ES6</title>
+  </head>
+  <body>
+    <script>
+      // Деструктуризация позволяет получать нам нужные свойства из массивов
+      // или нужных свойст из объектов и присвоить их новым переменным
+
+      // const auto = {
+      //   name: "Tesla",
+      //   year: 2020,
+      //   color: "silver",
+      //   dimensions: {
+      //     size: {
+      //       width: "1,99mm",
+      //       length: "5,036mm",
+      //     },
+      //   },
+      // };
+
+      // ## Получаем доступ к свойствам
+      // const { name, year, color } = auto;
+      // console.log(name, year, color); // Tesla 2020 silver
+
+      // const { width, length } = auto.dimensions.size;
+      // console.log(width, length); // 1,99mm 5,036mm
+
+      // ## Если нам нужно переименовать переменную, то задаем
+      // новое название через двоиточие
+      // const { width: carWidth, length } = auto.dimensions.size;
+      // console.log(carWidth, length); // 1,99mm 5,036mm
+
+      // ## Мы можем устанавливать дефолтные значения
+      // для переменных при деструктуризации
+      // const auto = {
+      //    name: 'Tesla',
+      //    color: 'silver',
+      // };
+
+      // const { name, color = "green" } = auto;
+      // Если свойство color будет отсутствовать в объекте
+      // или не установлено, то мы получим дефолтное значение green
+
+      // const auto2 = ['Tesla', '2020', 'green'];
+      // // Получаем значения их массива
+      // // Присваиваем им названия при деструктуризации
+      // const [name, year, color] = auto2;
+      // console.log(name, year, color);  // Tesla 2020 green
+
+      // ## Получаем переменные из строки
+      const auto = "Tesla,2020,green";
+      // Можем использовать метод split
+      const [name, year, color] = auto.split(",");
+      console.log(name, year, color); // Tesla 2020 green
+      // Если требуется некоторые данные из строки записать в отдельную переменную
+      // В этом случае используем rest
+      const auto2 = "Tesla,2020,green,20,discount";
+      const [name2, year2, color2, ...dealer] = auto2.split(",");
+      console.log(dealer); // ['20', 'discount']
+      const [quantity, discount] = dealer;
+      console.log(quantity, discount); // 20 discount
+
+      // Меняем переменные местами
+      let left = "Left";
+      let right = "Right";
+      // Справа создали массив с текущими данными
+      // слева его сразу деструктурировали с новыми позициями
+      [right, left] = [left, right];
+      // Фигурные скобки чтобы видеть названия переменных
+      console.log({ left, right }); // {left: 'Right', right: 'Left'}
+
+      // ## Деструктуризация переменных из функции
+      function converRubles(rubles) {
+        const complete = {
+          EUR: rubles / 77,
+          USD: rubles / 72,
+          GBP: rubles / 85,
+        };
+        return complete;
+      }
+
+      const amount = converRubles(5000);
+      console.log(amount); // Получим расчет наших свойств
+      // Деструктурируем
+      const { EUR, USD, GBP } = converRubles(5000);
+      console.log(EUR, USD, GBP);
+
+      // function getTotal(total, shipment = 0.1) {
+      //    return total + total * shipment;
+      // }
+
+      // const total = getTotal(1000, 0.2);
+      // console.log(total);  // 1200
+      // Если пользователь забудет в каком порядке должны быть
+      // переданы данные функции, то он получит неправильные значения
+      // ## Сделаем так, чтобы порядок был не важен
+
+      // Заключаем в фигурные скобки параметры функции
+      function getTotal({ total, shipment = 0.1 }) {
+        return total + total * shipment;
+      }
+      // Заключаем в фигурные скобки передачу данных
+      const total = getTotal({ shipment: 0.2, total: 1000 });
+      console.log(total); // 1200
+    </script>
+  </body>
+</html>
