@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оператор ...Spread</title>
+  </head>
+  <body>
+    <div class="cars">
+      <span>Tesla</span>
+      <span>Nissan</span>
+      <span>BMW</span>
+    </div>
+    <script>
+      const regular = ["VM", "Skoda", "Audi"];
+      const electric = ["Tesla", "BMW i3", "Jaguar I-pace"];
+
+      // ## Создание одного массива из двух
+
+      // Использование метода concat
+      // const cars = regular.concat(electric);
+      // console.log(cars);
+
+      // spread
+      // const cars = [...regular, ...electric];
+
+      // ## Добавление нового элемента в при создании общего массива
+      const cars = [...regular, "Mercedes Benz", ...electric];
+
+      // ## Копирование массива
+
+      // Использование метода concat
+      // const carsNew = [].concat(cars);
+
+      // spread
+      const carsNew = [...cars]; // Создается именно копия массива, а не ссылка
+
+      // ## Использование spread со строчным выражением
+
+      const word = "electric";
+      const letters = [...word];
+      console.log(letters); // ['e', 'l', 'e', 'c', 't', 'r', 'i', 'c']
+
+      // ## Перебор элементов Node-листа внутри div
+
+      // const caars = document.querySelectorAll('.cars span');
+      // Так как наша группа это Node-лист,
+      // то методы перебора массивом здесь не работают
+      // Чтобы не переводить лиший раз Node-лист в массив, используем spread
+      const caars = [...document.querySelectorAll('.cars span')];
+      console.log(caars);  // [span, span, span]
+      const autos = caars.map(car => car.textContent);
+      console.log(autos);  // ['Tesla', 'Nissan', 'BMW']
+
+      // ## Работа с объектами
+
+      const carss = {
+         name: 'Tesla',
+         year: 2020,
+         tags: ['fast', 'new', 'electric']
+      }
+
+      const carTags = [...carss.tags];
+      console.log(carTags);   // ['fast', 'new', 'electric']
+
+      // ## Удаление элемента из массива объектов
+
+      const carrs = [
+         { name: 'Tesla', id: 2585 },
+         { name: 'Nissan', id: 1212 },
+         { name: 'Tractor', id: 1111 },
+         { name: 'Skoda', id: 6712 },
+         { name: 'BMW', id: 5122 },
+      ]
+      // Известен только индекс элемента
+      const objectId = 1111;
+      // Ищем элемент по имеющемуся индексу
+      const indexId = carrs.findIndex(car => car.id === objectId);
+      // console.log(indexId);   // 2 - проверяем соответствие элемента его позиции
+      // Составляем новый массив из элементов ДО и ПОСЛЕ удаляемого
+      const newCarrs = [...carrs.slice(0, indexId), ...carrs.slice(indexId + 1)];
+      console.log(newCarrs);
+
+      // ## Добавить в первый массив второй
+
+      const regular1 = ["VM", "Skoda", "Audi"];
+      const electric1 = ["Tesla", "BMW i3", "Jaguar I-pace"];
+      
+      regular1.push(...electric1);
+      console.log(regular1);  // ['VM', 'Skoda', 'Audi', 'Tesla', 'BMW i3', 'Jaguar I-pace']
+
+      // ## Использование spread в функциях
+
+      const car = ['Tesla', 2021]; 
+
+      function displayCar(title, year) {
+         console.log(`Автомобиль ${title} - ${year} года`);
+      }
+
+      // displayCar(car[0], car[1]);   // Автомобиль Tesla - 2021 года
+      displayCar(...car);  // Автомобиль Tesla - 2021 года
+
+    </script>
+  </body>
+</html>
