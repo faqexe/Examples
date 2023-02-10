@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оператор Rest</title>
+  </head>
+  <body>
+    <script>
+      // Spread берет элементы из массива и распаковывает или выливает
+      // их по одному в другой массив, то Rest наоборот -
+      // он берет нужные элементы и запаковывает их в новый массив
+
+      // function convertUsd (rate, ...totals) {
+      //    console.log(rate, totals);
+      // }
+      // convertUsd(70, 1000, 800, 6300, 2500); // 70 [1000, 800, 6300, 2500] - данные запакованы в новый массив
+
+      function convertUsd (rate, ...totals) {
+         console.log(rate, totals);
+         // Пробегаемся по массиву, делаем расчеты
+         return totals.map(total => total / rate);
+      }
+
+      const total = convertUsd (70, 1000, 800, 6300, 2500);
+      console.log(total);  // [14.285714285714286, 11.428571428571429, 90, 35.714285714285715]
+
+      // ## Деструктуризация
+
+      const car = ['Tesla', 111, 'red', '50000', '10%', '4wd'];
+      // Достаем только первые три значения
+      // const [name, id, options] = car;
+      // console.log(name, id, options);  // Tesla 111 red
+      // Достаем первые два значения, остальное запаковываем в новый массив
+      const [name, id, ...options] = car;
+      console.log(name, id, options);  // Tesla 111 ['red', '50000', '10%', '4wd']
+    </script>
+  </body>
+</html>
